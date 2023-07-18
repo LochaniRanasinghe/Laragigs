@@ -12,6 +12,12 @@ class Listing extends Model
 
     public function scopeFilter($query, array $filters){
         
+        //tag search
+        //If filter tag is not false proceed the rest(If there's a tag then proceed)
+        if ($filters['tag'] ?? false) {
+            $query->where('tags', 'like', '%' . request('tag') . '%');
+        }
+        
         // search bar
         if ($filters['search'] ?? false) {
             $query->where('title', 'like', '%' . request('search') . '%')

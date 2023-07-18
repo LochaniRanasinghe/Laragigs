@@ -21,14 +21,8 @@ Route::get('/', [ListingController::class,'index']);
 //create a listing
 Route::get('/listings/create', [ListingController::class,'create']);
 
-
-// Route::get('/', function () {
-//     return view('listings.index',[
-//         'heading'=>'Latest Listings',
-//         'bfname'=>'Sunera',
-//         'listings'=>Listing::all()
-//     ]);
-// });
+//store listing data
+Route::post('/listings', [ListingController::class,'store']);
 
 //get a single listing
 // Route::get('/listing/{listing}', ListingController::class,'show');
@@ -47,15 +41,3 @@ Route::get('/listing/{id}', function ($id) {
     }
 }); 
 //-------------------
-
-//get a single listing
-// Route::get('/listing/{listing}', function (Listing $listing) {
-//     $listing = Listing::find($id);
-    
-    
-//         return view('listing',[
-//             'listingSS'=>$listing
-//         ]);
-    
-
-// });

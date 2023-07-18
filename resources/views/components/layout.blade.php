@@ -47,8 +47,8 @@
         </nav>
 
         <main>
-            @yield('content')
-            {{-- {{ $slot }} --}}
+            {{-- @yield('content') --}}
+            {{$slot}}
             {{-- END VIEW OUTPUT --}}
         </main>
         

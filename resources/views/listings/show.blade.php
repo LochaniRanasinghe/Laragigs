@@ -1,5 +1,4 @@
-@extends('layout')
-@section('content')
+<x-layout>
 @include('partials._search')
 
 
@@ -20,7 +19,7 @@
 
                         <h3 class="text-2xl mb-2">{{ $listingSS->title }}</h3>
                         <div class="text-xl font-bold mb-4">{{ $listingSS->company }}</div>
-                        <ul class="flex">
+                        {{-- <ul class="flex">
                             <li
                                 class="bg-black text-white rounded-xl px-3 py-1 mr-2"
                             >
@@ -41,7 +40,9 @@
                             >
                                 <a href="#">Vue</a>
                             </li>
-                        </ul>
+                        </ul> --}}
+                        <x-listingTags :tagsCsv="$listingSS->tags" />
+
                         <div class="text-lg my-4">
                             <i class="fa-solid fa-location-dot"></i> {{ $listingSS->location }}
                         </div>
@@ -72,4 +73,4 @@
                 </x-card>
             </div>
 
-@endsection
+</x-layout>
