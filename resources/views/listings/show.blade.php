@@ -13,34 +13,13 @@
                     <div class="flex flex-col items-center justify-center text-center">
                         <img
                             class="w-48 mr-6 mb-6"
-                            src="{{asset('images/no-image.png')}}"
+                            src="{{ $listingSS->logo ? asset('storage/'.$listingSS->logo) : asset('images/no-image.png') }}"
                             alt=""
                         />
 
                         <h3 class="text-2xl mb-2">{{ $listingSS->title }}</h3>
                         <div class="text-xl font-bold mb-4">{{ $listingSS->company }}</div>
-                        {{-- <ul class="flex">
-                            <li
-                                class="bg-black text-white rounded-xl px-3 py-1 mr-2"
-                            >
-                                <a href="#">Laravel</a>
-                            </li>
-                            <li
-                                class="bg-black text-white rounded-xl px-3 py-1 mr-2"
-                            >
-                                <a href="#">API</a>
-                            </li>
-                            <li
-                                class="bg-black text-white rounded-xl px-3 py-1 mr-2"
-                            >
-                                <a href="#">Backend</a>
-                            </li>
-                            <li
-                                class="bg-black text-white rounded-xl px-3 py-1 mr-2"
-                            >
-                                <a href="#">Vue</a>
-                            </li>
-                        </ul> --}}
+                    
                         <x-listingTags :tagsCsv="$listingSS->tags" />
 
                         <div class="text-lg my-4">
@@ -71,6 +50,20 @@
                         </div>
                     </div>
                 </x-card>
+
+                <x-card class="mt-4 p-2 flex space-x-6">
+                    <a href="/listings/{{ $listingSS->id }}/edit">
+                     <i class="fa-solid fa-pencil"></i> Edit    
+                    </a> 
+
+                    <form method="POST" action="/listings/{{ $listingSS->id }}">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="text-red-500">
+                        <i class="fa-solid fa-trash"></i> Delete
+                    </form>
+                </x-card>    
+
             </div>
 
 </x-layout>

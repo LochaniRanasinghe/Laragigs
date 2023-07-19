@@ -11,8 +11,8 @@ class ListingController extends Controller
     public function index()
     {
         return view('listings.index',[
-            'listings' => Listing::latest()->filter(request(['tag', 'search']))->simplePaginate(6)
-
+            'listings' => Listing::latest()->filter(request(['tag', 'search']))->paginate(6)
+            //If we use get() instead of simplePaginate() then we can display all the listings in a single page
         ]);
     }
     
@@ -30,13 +30,53 @@ class ListingController extends Controller
             'company'=>['required',Rule::unique('listings','company'),],
             'location'=>'required',
             'website'=>'required',
-            'email'=> ['required|email'],
+            'email'=> 'required|email',
             'tags'=>'required',
             'description'=>'required',
         ]);
-        return redirect('/');
+        //path for the logo to go into the database
+        if($request->hasFile('logo')){
+            $formField['logo']=$request->file('logo')->store('logos','public'); //folder called 'logos' will be created inside the public folder
+        }
+        
+        Listing::create($formField);
+        return redirect('/')->with('message','Job Posted Successfully');
     } 
 
     
-    
+    //Show edit form
+    public function edit(Listing $listing){
+        
+        return view('listings.edit',['listing'=>$listing]);
+    }
+
+    //Update a single Listing
+    public function update(Request $request, Listing $listing){
+        // dd($request->all());
+        $formField =$request->validate([
+            'title'=>'required',
+            //name of the table==>listings
+            'company'=>['required'],
+            'location'=>'required',
+            'website'=>'required',
+            'email'=> 'required|email',
+            'tags'=>'required',
+            'description'=>'required',
+        ]);
+        //path for the logo to go into the database
+        if($request->hasFile('logo')){
+            $formField['logo']=$request->file('logo')->store('logos','public'); //folder called 'logos' will be created inside the public folder
+        }
+        
+        $listing->update($formField);
+        
+        //Redirect to the previous page with a message[back()]
+        return back()->with('message','Job Updated Successfully');
+    } 
+
+    //Delete a single Listing
+    public function destroy(Listing $listing){
+        $listing->delete();
+        return redirect('/')->with('message','Job Deleted Successfully');
+    }
 }

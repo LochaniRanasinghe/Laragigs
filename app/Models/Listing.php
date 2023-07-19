@@ -9,7 +9,9 @@ class Listing extends Model
 {
     use HasFactory;
 
-
+    //Inorder to prevent mass assignment error we use fillable property to specify which fields are allowed to be mass assigned
+    // protected $fillable=['title','company','location','website','email','tags','description'];    
+    
     public function scopeFilter($query, array $filters){
         
         //tag search
