@@ -22,7 +22,7 @@
                                 value="{{ old('email') }}"
                             />
                             @error('email')
-                                <p class="text-red-500 text-xs mt-1"></p>
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
                         </div>
 
@@ -40,7 +40,7 @@
                                 value="{{ old('password') }}"
                             />
                             @error('password')
-                                <p class="text-red-500 text-xs mt-1"></p>
+                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
                         </div>
 

@@ -50,21 +50,23 @@ class UserController extends Controller
     }
 
     //Save loigin details
-    public function authenticate(Request $request){
-        
-        $formFields = $request->validate([
+    public function authenticate(Request $request)
+    {
+        $formField = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
 
-        // Attempt to login
-        if (auth()->attempt($formFields)) {
+        // Attempt to login user
+        if (auth()->attempt($formField)) {
             $request->session()->regenerate();
-
-            // Redirect
-            return redirect('/')->with('message', 'User Logged in Successfully');
+            return redirect('/')->with('message', 'User logged in successfully!');
         }
 
-        return back()->withErrors(['email' => 'Invalid Credentials'])->onlyInput('email');
+        // If login fails, redirect back with errors and input
+        return back()
+            ->withErrors(['email' => 'The provided credentials do not match our records.'])
+            ->withInput($request->only('email'));
     }
+
 }

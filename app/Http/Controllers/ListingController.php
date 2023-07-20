@@ -39,6 +39,9 @@ class ListingController extends Controller
             $formField['logo']=$request->file('logo')->store('logos','public'); //folder called 'logos' will be created inside the public folder
         }
         
+        //***Add user_id to the formField array 
+        $formField['user_id']=auth()->user()->id;
+        
         Listing::create($formField);
         return redirect('/')->with('message','Job Posted Successfully');
     } 
@@ -52,6 +55,12 @@ class ListingController extends Controller
 
     //Update a single Listing
     public function update(Request $request, Listing $listing){
+        
+        // Make sure that the user is authorized to edit the listing
+        if ($listing->user_id !== auth()->id()) {
+            abort(403, 'You are not authorized to edit this listing!');
+        }
+        
         // dd($request->all());
         $formField =$request->validate([
             'title'=>'required',
@@ -76,7 +85,19 @@ class ListingController extends Controller
 
     //Delete a single Listing
     public function destroy(Listing $listing){
+
+        // Make sure that the user is authorized to delete the listing
+        if ($listing->user_id !== auth()->id()) {
+            abort(403, 'You are not authorized to edit this listing!');
+        }
+        
         $listing->delete();
         return redirect('/')->with('message','Job Deleted Successfully');
     }
+
+    //Manage Listings
+    public function manage(){
+        return view('listings.manage',['listings'=>auth()->user()->listings()->get()]);
+    }
+    
 }
